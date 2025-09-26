@@ -295,7 +295,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
       child: Column(
         children: [
           EmergencyHelpButton(
-            size: 100,
+            size: 150,
             primaryColor: Colors.orange[600]!,
             label: 'EMERGENCY HELP',
             animationDuration: const Duration(milliseconds: 2000),
