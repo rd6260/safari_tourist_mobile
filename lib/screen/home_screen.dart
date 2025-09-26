@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:safari_tourist_mobile/widgets/emergency_help_button.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -8,8 +9,7 @@ class HomeScreen extends StatefulWidget {
   State<HomeScreen> createState() => _HomeScreenState();
 }
 
-class _HomeScreenState extends State<HomeScreen>
-    with TickerProviderStateMixin {
+class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
   bool _isTrackingEnabled = true;
   bool _isGeofenceActive = false;
   late AnimationController _pulseController;
@@ -20,34 +20,26 @@ class _HomeScreenState extends State<HomeScreen>
   @override
   void initState() {
     super.initState();
-    
+
     // Pulse animation for panic button
     _pulseController = AnimationController(
       duration: const Duration(seconds: 2),
       vsync: this,
     )..repeat();
-    
-    _pulseAnimation = Tween<double>(
-      begin: 1.0,
-      end: 1.1,
-    ).animate(CurvedAnimation(
-      parent: _pulseController,
-      curve: Curves.easeInOut,
-    ));
+
+    _pulseAnimation = Tween<double>(begin: 1.0, end: 1.1).animate(
+      CurvedAnimation(parent: _pulseController, curve: Curves.easeInOut),
+    );
 
     // Panic button press animation
     _panicController = AnimationController(
       duration: const Duration(milliseconds: 200),
       vsync: this,
     );
-    
-    _panicAnimation = Tween<double>(
-      begin: 1.0,
-      end: 0.9,
-    ).animate(CurvedAnimation(
-      parent: _panicController,
-      curve: Curves.easeInOut,
-    ));
+
+    _panicAnimation = Tween<double>(begin: 1.0, end: 0.9).animate(
+      CurvedAnimation(parent: _panicController, curve: Curves.easeInOut),
+    );
   }
 
   @override
@@ -60,11 +52,11 @@ class _HomeScreenState extends State<HomeScreen>
   void _triggerPanic() async {
     // Haptic feedback
     HapticFeedback.heavyImpact();
-    
+
     // Play animation
     await _panicController.forward();
     await _panicController.reverse();
-    
+
     // Show confirmation dialog
     _showPanicConfirmation();
   }
@@ -158,19 +150,19 @@ class _HomeScreenState extends State<HomeScreen>
               // Header
               _buildHeader(),
               const SizedBox(height: 30),
-              
+
               // Status Cards
               _buildStatusCards(),
               const SizedBox(height: 30),
-              
+
               // Panic Button
               _buildPanicButton(),
               const SizedBox(height: 30),
-              
+
               // Quick Actions
               _buildQuickActions(),
               const SizedBox(height: 30),
-              
+
               // Safety Features
               _buildSafetyFeatures(),
             ],
@@ -205,10 +197,7 @@ class _HomeScreenState extends State<HomeScreen>
                     const SizedBox(width: 4),
                     Text(
                       'Hubli, Karnataka',
-                      style: TextStyle(
-                        fontSize: 16,
-                        color: Colors.grey[600],
-                      ),
+                      style: TextStyle(fontSize: 16, color: Colors.grey[600]),
                     ),
                   ],
                 ),
@@ -220,7 +209,7 @@ class _HomeScreenState extends State<HomeScreen>
                 borderRadius: BorderRadius.circular(12),
                 boxShadow: [
                   BoxShadow(
-                    color: Colors.black.withOpacity(0.1),
+                    color: Colors.black.withValues(alpha: 0.1),
                     blurRadius: 8,
                     offset: const Offset(0, 2),
                   ),
@@ -230,8 +219,11 @@ class _HomeScreenState extends State<HomeScreen>
                 onPressed: () {},
                 icon: Stack(
                   children: [
-                    Icon(Icons.notifications_outlined, 
-                         color: Colors.grey[700], size: 24),
+                    Icon(
+                      Icons.notifications_outlined,
+                      color: Colors.grey[700],
+                      size: 24,
+                    ),
                     Positioned(
                       right: 0,
                       top: 0,
@@ -278,7 +270,12 @@ class _HomeScreenState extends State<HomeScreen>
     );
   }
 
-  Widget _buildStatusCard(String title, String value, Color color, IconData icon) {
+  Widget _buildStatusCard(
+    String title,
+    String value,
+    Color color,
+    IconData icon,
+  ) {
     return Container(
       padding: const EdgeInsets.all(20),
       decoration: BoxDecoration(
@@ -286,7 +283,7 @@ class _HomeScreenState extends State<HomeScreen>
         borderRadius: BorderRadius.circular(16),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.05),
+            color: Colors.black.withValues(alpha: 0.05),
             blurRadius: 10,
             offset: const Offset(0, 4),
           ),
@@ -302,7 +299,7 @@ class _HomeScreenState extends State<HomeScreen>
               Container(
                 padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
                 decoration: BoxDecoration(
-                  color: color.withOpacity(0.1),
+                  color: color.withValues(alpha: 0.1),
                   borderRadius: BorderRadius.circular(8),
                 ),
                 child: Text(
@@ -325,13 +322,7 @@ class _HomeScreenState extends State<HomeScreen>
               color: Colors.grey[800],
             ),
           ),
-          Text(
-            title,
-            style: TextStyle(
-              fontSize: 14,
-              color: Colors.grey[600],
-            ),
-          ),
+          Text(title, style: TextStyle(fontSize: 14, color: Colors.grey[600])),
         ],
       ),
     );
@@ -350,57 +341,17 @@ class _HomeScreenState extends State<HomeScreen>
             ),
           ),
           const SizedBox(height: 16),
-          AnimatedBuilder(
-            animation: _pulseAnimation,
-            builder: (context, child) {
-              return Transform.scale(
-                scale: _pulseAnimation.value,
-                child: AnimatedBuilder(
-                  animation: _panicAnimation,
-                  builder: (context, child) {
-                    return Transform.scale(
-                      scale: _panicAnimation.value,
-                      child: GestureDetector(
-                        onTap: _triggerPanic,
-                        child: Container(
-                          width: 150,
-                          height: 150,
-                          decoration: BoxDecoration(
-                            gradient: RadialGradient(
-                              colors: [
-                                Colors.red[400]!,
-                                Colors.red[600]!,
-                              ],
-                            ),
-                            shape: BoxShape.circle,
-                            boxShadow: [
-                              BoxShadow(
-                                color: Colors.red.withOpacity(0.3),
-                                blurRadius: 20,
-                                spreadRadius: 5,
-                              ),
-                            ],
-                          ),
-                          child: const Icon(
-                            Icons.warning_rounded,
-                            color: Colors.white,
-                            size: 60,
-                          ),
-                        ),
-                      ),
-                    );
-                  },
-                ),
-              );
-            },
+          EmergencyHelpButton(
+            size: 100,
+            primaryColor: Colors.orange[600]!,
+            label: 'EMERGENCY HELP',
+            animationDuration: const Duration(milliseconds: 2000),
+            onPressed: _triggerPanic,
           ),
           const SizedBox(height: 12),
           Text(
             'Tap for immediate help',
-            style: TextStyle(
-              fontSize: 14,
-              color: Colors.grey[600],
-            ),
+            style: TextStyle(fontSize: 14, color: Colors.grey[600]),
           ),
         ],
       ),
@@ -463,7 +414,7 @@ class _HomeScreenState extends State<HomeScreen>
           borderRadius: BorderRadius.circular(16),
           boxShadow: [
             BoxShadow(
-              color: Colors.black.withOpacity(0.05),
+              color: Colors.black.withValues(alpha: 0.05),
               blurRadius: 10,
               offset: const Offset(0, 4),
             ),
@@ -474,7 +425,7 @@ class _HomeScreenState extends State<HomeScreen>
             Container(
               padding: const EdgeInsets.all(12),
               decoration: BoxDecoration(
-                color: color.withOpacity(0.1),
+                color: color.withValues(alpha: 0.1),
                 shape: BoxShape.circle,
               ),
               child: Icon(icon, color: color, size: 24),
@@ -549,7 +500,7 @@ class _HomeScreenState extends State<HomeScreen>
         borderRadius: BorderRadius.circular(12),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.05),
+            color: Colors.black.withValues(alpha: 0.05),
             blurRadius: 8,
             offset: const Offset(0, 2),
           ),
@@ -560,7 +511,7 @@ class _HomeScreenState extends State<HomeScreen>
           Container(
             padding: const EdgeInsets.all(8),
             decoration: BoxDecoration(
-              color: Colors.blue.withOpacity(0.1),
+              color: Colors.blue.withValues(alpha: 0.1),
               borderRadius: BorderRadius.circular(8),
             ),
             child: Icon(icon, color: Colors.blue[600], size: 20),
@@ -579,10 +530,7 @@ class _HomeScreenState extends State<HomeScreen>
                 ),
                 Text(
                   subtitle,
-                  style: TextStyle(
-                    fontSize: 12,
-                    color: Colors.grey[600],
-                  ),
+                  style: TextStyle(fontSize: 12, color: Colors.grey[600]),
                 ),
               ],
             ),
