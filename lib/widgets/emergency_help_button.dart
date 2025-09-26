@@ -86,10 +86,10 @@ class _EmergencyHelpButtonState extends State<EmergencyHelpButton>
     _rippleController.repeat();
   }
 
-  void _stopRippleAnimation() {
-    _rippleController.stop();
-    _rippleController.reset();
-  }
+  // void _stopRippleAnimation() {
+  //   _rippleController.stop();
+  //   _rippleController.reset();
+  // }
 
   Future<void> _handleTap() async {
     if (widget.enableHaptics) {

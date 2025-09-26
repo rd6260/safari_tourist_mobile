@@ -11,53 +11,15 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
   bool _isTrackingEnabled = true;
-  bool _isGeofenceActive = false;
-  late AnimationController _pulseController;
-  late AnimationController _panicController;
-  late Animation<double> _pulseAnimation;
-  late Animation<double> _panicAnimation;
+  bool _isGeofenceActive = true;
 
   @override
   void initState() {
     super.initState();
-
-    // Pulse animation for panic button
-    _pulseController = AnimationController(
-      duration: const Duration(seconds: 2),
-      vsync: this,
-    )..repeat();
-
-    _pulseAnimation = Tween<double>(begin: 1.0, end: 1.1).animate(
-      CurvedAnimation(parent: _pulseController, curve: Curves.easeInOut),
-    );
-
-    // Panic button press animation
-    _panicController = AnimationController(
-      duration: const Duration(milliseconds: 200),
-      vsync: this,
-    );
-
-    _panicAnimation = Tween<double>(begin: 1.0, end: 0.9).animate(
-      CurvedAnimation(parent: _panicController, curve: Curves.easeInOut),
-    );
-  }
-
-  @override
-  void dispose() {
-    _pulseController.dispose();
-    _panicController.dispose();
-    super.dispose();
   }
 
   void _triggerPanic() async {
-    // Haptic feedback
     HapticFeedback.heavyImpact();
-
-    // Play animation
-    await _panicController.forward();
-    await _panicController.reverse();
-
-    // Show confirmation dialog
     _showPanicConfirmation();
   }
 
@@ -332,15 +294,6 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
     return Center(
       child: Column(
         children: [
-          Text(
-            'Emergency Help',
-            style: TextStyle(
-              fontSize: 18,
-              fontWeight: FontWeight.w600,
-              color: Colors.grey[800],
-            ),
-          ),
-          const SizedBox(height: 16),
           EmergencyHelpButton(
             size: 100,
             primaryColor: Colors.orange[600]!,
@@ -348,7 +301,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
             animationDuration: const Duration(milliseconds: 2000),
             onPressed: _triggerPanic,
           ),
-          const SizedBox(height: 12),
+          const SizedBox(height: 4),
           Text(
             'Tap for immediate help',
             style: TextStyle(fontSize: 14, color: Colors.grey[600]),
@@ -538,7 +491,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
           Switch(
             value: value,
             onChanged: onChanged,
-            activeColor: Colors.blue[600],
+            activeThumbColor: Colors.blue[600],
           ),
         ],
       ),
