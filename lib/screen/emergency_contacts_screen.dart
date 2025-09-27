@@ -277,8 +277,7 @@ class _EmergencyContactsScreenState extends State<EmergencyContactsScreen> {
         ),
         const SizedBox(height: 16),
         ..._emergencyContacts
-            .map((contact) => _buildContactCard(contact))
-            .toList(),
+            .map((contact) => _buildContactCard(contact)),
       ],
     );
   }

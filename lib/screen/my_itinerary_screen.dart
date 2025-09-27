@@ -397,7 +397,7 @@ class _MyItineraryScreenState extends State<MyItineraryScreen>
           final isLast = index == day.locations.length - 1;
           
           return _buildLocationItem(location, isLast);
-        }).toList(),
+        }),
       ],
     );
   }

@@ -4,6 +4,7 @@ import 'package:safari_tourist_mobile/screen/activity_history_screen.dart';
 import 'package:safari_tourist_mobile/screen/digital_id_screen.dart';
 import 'package:safari_tourist_mobile/screen/emergency_contacts_screen.dart';
 import 'package:safari_tourist_mobile/screen/my_itinerary_screen.dart';
+import 'package:safari_tourist_mobile/screen/risk_map_screen.dart';
 import 'package:safari_tourist_mobile/widgets/emergency_help_button.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -287,8 +288,10 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                   title: 'Risk Map',
                   subtitle: 'Real-time safety zones',
                   onTap: () {
-                    Navigator.pop(context);
-                    _showComingSoon('Risk Map');
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => RiskMapScreen()),
+                    );
                   },
                 ),
                 _buildDrawerItem(
@@ -324,7 +327,9 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                   onTap: () {
                     Navigator.push(
                       context,
-                      MaterialPageRoute(builder: (context) => ActivityHistoryScreen()),
+                      MaterialPageRoute(
+                        builder: (context) => ActivityHistoryScreen(),
+                      ),
                     );
                   },
                 ),

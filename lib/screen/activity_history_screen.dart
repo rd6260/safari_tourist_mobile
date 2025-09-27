@@ -454,7 +454,7 @@ class _ActivityHistoryScreenState extends State<ActivityHistoryScreen>
                       ],
                     ),
                   );
-                }).toList(),
+                }),
                 const SizedBox(height: 12),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.end,

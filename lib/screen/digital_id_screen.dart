@@ -761,7 +761,7 @@ class _DigitalIDScreenState extends State<DigitalIDScreen>
                 Icons.language,
               ),
               const SizedBox(height: 16),
-              _buildBlockchainRow('Created', 'Jan 15, 2025', Icons.access_time),
+              _buildBlockchainRow('Created', 'Sep 15, 2025', Icons.access_time),
             ],
           ),
         ),
